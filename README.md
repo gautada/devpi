@@ -56,3 +56,37 @@ uv publish --index-url http://localhost:3141/gautada/dev/
 
 - [devpi documentation](https://devpi.net/docs/devpi/devpi/stable/+d/index.html)
 - [devpi on PyPI](https://pypi.org/project/devpi-server/)
+
+## Publishing a Python Package (e.g. dyndns)
+
+Once the container is running, the \`gautada/dev\` index is created automatically on first start.
+
+### One-time client setup (on your machine)
+
+```shell
+pip install devpi-client
+devpi use http://<devpi-host>:3141/gautada/dev/
+devpi login gautada --password=''
+```
+
+### Publish with uv
+
+```shell
+cd /path/to/your/python/package
+uv build
+uv publish --index-url http://<devpi-host>:3141/gautada/dev/
+```
+
+### Install from the private index
+
+```shell
+uv pip install --index-url http://<devpi-host>:3141/gautada/dev/ your-package
+```
+
+### Upstream PyPI proxy
+
+The \`root/pypi\` index proxies and caches upstream PyPI. Configure \`uv\` to use it:
+
+```shell
+uv pip install --index-url http://<devpi-host>:3141/root/pypi/ requests
+```
